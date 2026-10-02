@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vamsi@portfolio:~</title>
+<style>
+  :root {
+    --bg: #050705;
+    --fg: #33ff66;
+    --dim: #1d8a3f;
+    --accent: #ffb000;
+    --prompt: #ffb000;
+    --link: #ffb000;
+    --echo: #ffffff;
+    --glow: rgba(51, 255, 102, 0.45);
+    --hover-fg: #031003;
+  }
+  /* Catppuccin Mocha */
+  body.mocha {
+    --bg: #1e1e2e;
+    --fg: #cdd6f4;
+    --dim: #6c7086;
+    --accent: #f9e2af;
+    --prompt: #cba6f7;
+    --link: #89b4fa;
+    --echo: #f5e0dc;
+    --glow: rgba(180, 190, 254, 0.28);
+    --hover-fg: #11111b;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, "Courier New", monospace;
+    font-size: 15px; line-height: 1.6;
+  }
+  /* CRT scanlines + vignette */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: 50; pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom, transparent 0px, transparent 2px,
+      rgba(0,0,0,0.22) 3px, rgba(0,0,0,0.22) 4px
+    );
+  }
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 51; pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+  }
+  #term {
+    max-width: 920px; margin: 0 auto;
+    padding: 32px 20px 80px;
+    text-shadow: 0 0 6px var(--glow);
+    animation: flicker 4s infinite;
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; } 97% { opacity: 1; }
+    98% { opacity: 0.92; } 99% { opacity: 1; }
+  }
+  pre.banner {
+    color: var(--fg);
+    font-size: clamp(7px, 1.9vw, 13px);
+    line-height: 1.15; margin: 0 0 6px; white-space: pre;
+  }
+  .tagline { color: var(--accent); margin: 0 0 24px; }
+  .tagline::before { content: "# "; color: var(--dim); }
+  nav { margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+  nav button {
+    background: transparent; border: 1px solid var(--dim);
+    color: var(--fg); font: inherit; font-size: 13px;
+    padding: 6px 12px; cursor: pointer; border-radius: 2px;
+    text-shadow: 0 0 6px var(--glow);
+  }
+  nav button:hover { background: var(--fg); color: var(--hover-fg); text-shadow: none; }
+  nav button::before { content: "./"; color: var(--dim); }
+  nav button:hover::before { color: var(--hover-fg); }
+  #output .line { white-space: pre-wrap; word-break: break-word; margin: 0; }
+  .cmd-echo { color: var(--echo); }
+  .cmd-echo .prompt { color: var(--prompt); }
+  .dim { color: var(--dim); }
+  .amber { color: var(--accent); }
+  a { color: var(--link); text-decoration: underline; }
+  a:hover { background: var(--link); color: var(--hover-fg); }
+  #input-line { display: flex; align-items: center; margin-top: 4px; }
+  .prompt { color: var(--prompt); white-space: nowrap; }
+  #cmd {
+    flex: 1; background: transparent; border: none; outline: none;
+    color: var(--echo); font: inherit; caret-color: var(--fg);
+    text-shadow: 0 0 6px var(--glow);
+  }
+  .cursor-block { display:inline-block; width: 9px; height: 18px; background: var(--fg);
+    vertical-align: -3px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  footer { margin-top: 48px; color: var(--dim); font-size: 13px; }
+  footer::before { content: "────────────────────────────────────────"; display:block; margin-bottom: 8px; }
+  @media (max-width: 600px) { body { font-size: 13px; } }
+</style>
+</head>
+<body>
+<div id="term">
+<pre class="banner">██╗   ██╗ █████╗ ███╗   ███╗███████╗██╗
+██║   ██║██╔══██╗████╗ ████║██╔════╝██║
+██║   ██║███████║██╔████╔██║███████╗██║
+╚██╗ ██╔╝██╔══██║██║╚██╔╝██║╚════██║██║
+ ╚████╔╝ ██║  ██║██║ ╚═╝ ██║███████║██║
+  ╚═══╝  ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝</pre>
+<p class="tagline">software engineer · seattle, wa · est. 2026</p>
+<nav id="nav">
+  <button data-cmd="about">about</button>
+  <button data-cmd="experience">experience</button>
+  <button data-cmd="projects">projects</button>
+  <button data-cmd="skills">skills</button>
+  <button data-cmd="contact">contact</button>
+  <button data-cmd="theme">theme</button>
+</nav>
+<div id="output"></div>
+<div id="input-line">
+  <span class="prompt">vamsi@github:~$&nbsp;</span>
+  <input id="cmd" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="terminal input">
+</div>
+<footer>© 2026 vathepalli vamsi bushan · rendered in pure ascii · hosted on github pages</footer>
+</div>
+<script>
+(function () {
+  "use strict";
+  var output = document.getElementById("output");
+  var input = document.getElementById("cmd");
+  var history = [];
+  var hIndex = -1;
+
+  var SECTIONS = {
+    about: [
+      { t: "> whoami", c: "cmd-echo" },
+      { t: "Vathepalli Vamsi Bushan" },
+      { t: "Software Development Engineer @ Amazon — Seattle, WA" },
+      { t: "" },
+      { t: "I build distributed systems by day and teach machines to" },
+      { t: "understand language by night. Indiana University Bloomington" },
+      { t: "alum. My work has spanned Amazon Ads, AWS Connect Customer" },
+      { t: "Profiles, and Fulfillment Operations." },
+      { t: "" },
+      { t: "interests: ML/NLP · distributed systems · tennis analytics", c: "dim" }
+    ],
+    experience: [
+      { t: "> cat experience.log", c: "cmd-echo" },
+      { t: "Software Development Engineer — Amazon, Seattle WA" },
+      { t: "  ├── Amazon Ads", c: "" },
+      { t: "  ├── AWS Connect Customer Profiles" },
+      { t: "  └── Fulfillment Operations" },
+      { t: "" },
+      { t: "B.S. — Indiana University Bloomington (2011–2015)", c: "dim" }
+    ],
+    projects: [
+      { t: "> ls ~/projects -l", c: "cmd-echo" },
+      { t: "NYTInshorts/                  Dec 2020", c: "amber" },
+      { t: "  real-time news web app on the NYT Article Search API;" },
+      { t: "  language models auto-generate summaries, keywords," },
+      { t: "  sentiment and text analytics", },
+      { t: "" },
+      { t: "tennis-analytics/             Dec 2020", c: "amber" },
+      { t: "  ATP player stats scraped with Selenium (python);" },
+      { t: "  career-rank consistency visualizations; serve" },
+      { t: "  factors via linear regression; surface correlation" },
+      { t: "  via clustering", },
+      { t: "" },
+      { t: "speech-denoising/             Nov 2020", c: "amber" },
+      { t: "  deep LSTM predicts the Ideal Binary Mask of noisy" },
+      { t: "  audio; predicted mask used as a denoising filter", },
+      { t: "" },
+      { t: "mapreduce-gcp/                Oct 2020", c: "amber" },
+      { t: "  distributed MapReduce on Compute Engine (GCE API);" },
+      { t: "  RPyC-based RPC between components; GCS buckets for" },
+      { t: "  intermediate output; unit-tested on wordcount and" },
+      { t: "  inverted index", },
+      { t: "" },
+      { t: "memcached-lite/               Oct 2020", c: "amber" },
+      { t: "  server implementing a subset of the Memcached protocol;" },
+      { t: "  deployed on Compute Engine; tested with PyMemcache" },
+      { t: "  clients", },
+      { t: "" },
+      { t: "ecg-movement/                 Mar 2020", c: "amber" },
+      { t: "  STFT feature extraction on EEG samples; KNN predicts" },
+      { t: "  movement direction (Left/Right)", },
+      { t: "" },
+      { t: "source on github — type 'contact' for the link", c: "dim" }
+    ],
+    skills: [
+      { t: "> ./skills --list", c: "cmd-echo" },
+      { t: "domains .... distributed systems · NLP/ML · backend engineering" },
+      { t: "ml ......... LSTMs · text summarization · signal processing" },
+      { t: "systems .... distributed compute · caching · AWS / GCP" },
+      { t: "tools ...... git · linux · this terminal", c: "dim" }
+    ],
+    contact: [
+      { t: "> cat contact.txt", c: "cmd-echo" },
+      { t: 'GitHub   : <a href="https://github.com/VamsiBrownie">github.com/VamsiBrownie</a>', h: true },
+      { t: 'LinkedIn : <a href="https://www.linkedin.com/in/vathepalli-vamsi-bushan">linkedin.com/in/vathepalli-vamsi-bushan</a>', h: true },
+      { t: "" },
+      { t: "PGP? no. Just say hi.", c: "dim" }
+    ],
+    help: [
+      { t: "available commands:", c: "amber" },
+      { t: "  about        who is this guy?" },
+      { t: "  experience   where he's worked" },
+      { t: "  projects     things he's built" },
+      { t: "  skills       the toolbox" },
+      { t: "  contact      get in touch" },
+      { t: "  theme        toggle catppuccin mocha / phosphor green" },
+      { t: "  clear        wipe the terminal" }
+    ]
+  };
+
+  function print(t, cls, html) {
+    var div = document.createElement("div");
+    div.className = "line" + (cls ? " " + cls : "");
+    if (html) { div.innerHTML = t; } else { div.textContent = t; }
+    output.appendChild(div);
+  }
+
+  function echoCmd(cmd) {
+    var div = document.createElement("div");
+    div.className = "line cmd-echo";
+    var p = document.createElement("span");
+    p.className = "prompt";
+    p.textContent = "vamsi@github:~$ ";
+    div.appendChild(p);
+    div.appendChild(document.createTextNode(cmd));
+    output.appendChild(div);
+  }
+
+  function runSection(name) {
+    var lines = SECTIONS[name];
+    if (!lines) return false;
+    lines.forEach(function (l) { print(l.t, l.c, l.h); });
+    return true;
+  }
+
+  function applyTheme(name) {
+    document.body.classList.toggle("mocha", name === "mocha");
+    try { localStorage.setItem("vamsi-portfolio-theme", name); } catch (e) {}
+  }
+
+  function themeCmd(cmd, c) {
+    echoCmd(cmd);
+    var arg = c.slice(5).trim();
+    var cur = document.body.classList.contains("mocha") ? "mocha" : "phosphor";
+    var next = cur === "mocha" ? "phosphor" : "mocha";
+    if (arg === "mocha" || arg === "phosphor") next = arg;
+    applyTheme(next);
+    print("theme: " + next + (next === "mocha" ? "  (catppuccin)" : "  (phosphor green)"), "amber");
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
+  function run(cmd) {
+    var c = cmd.trim().toLowerCase();
+    if (!c) return;
+    if (c === "clear") { output.innerHTML = ""; return; }
+    if (c === "sudo") { echoCmd(cmd); print("permission denied: nice try.", "amber"); return; }
+    if (c === "whoami") { echoCmd(cmd); print("vamsi"); return; }
+    if (c === "theme" || c.indexOf("theme ") === 0) { themeCmd(cmd, c); return; }
+    echoCmd(cmd);
+    if (!runSection(c)) {
+      print("command not found: " + c, "amber");
+      print("type 'help' for available commands.", "dim");
+    }
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
+  var BOOT = [
+    "[ OK ] mounted /dev/portfolio",
+    "[ OK ] loaded ascii_renderer v2.6",
+    "[ OK ] theme: catppuccin_mocha",
+    "",
+    "Welcome. Type 'help' to begin."
+  ];
+
+  function boot(i) {
+    if (i >= BOOT.length) { input.focus(); return; }
+    print(BOOT[i], "dim");
+    setTimeout(function () { boot(i + 1); }, 160);
+  }
+
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      var v = input.value;
+      history.unshift(v); hIndex = -1;
+      input.value = "";
+      run(v);
+    } else if (e.key === "ArrowUp") {
+      if (hIndex < history.length - 1) { hIndex++; input.value = history[hIndex] || ""; }
+      e.preventDefault();
+    } else if (e.key === "ArrowDown") {
+      if (hIndex > 0) { hIndex--; input.value = history[hIndex]; }
+      else { hIndex = -1; input.value = ""; }
+      e.preventDefault();
+    } else if (e.key === "l" && e.ctrlKey) {
+      output.innerHTML = ""; e.preventDefault();
+    }
+  });
+
+  document.getElementById("nav").addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (b) run(b.getAttribute("data-cmd"));
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest("a") && !e.target.closest("button")) input.focus();
+  });
+
+  try {
+    var savedTheme = localStorage.getItem("vamsi-portfolio-theme");
+    applyTheme(savedTheme === "phosphor" ? "phosphor" : "mocha");
+  } catch (e) { applyTheme("mocha"); }
+
+  boot(0);
+})();
+</script>
+</body>
+</html>
