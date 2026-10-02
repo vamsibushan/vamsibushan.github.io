@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>vamsi@portfolio:~</title>
+<title>Vamsi Bushan · Software Engineer</title>
+<meta name="description" content="Vamsi Bushan is a software engineer at Amazon in Seattle, building distributed systems and exploring machine learning and NLP.">
+<meta name="theme-color" content="#1e1e2e">
+<meta property="og:title" content="Vamsi Bushan · Software Engineer">
+<meta property="og:description" content="Distributed systems, language models, and things built along the way.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vamsibushan.github.io/">
+<link rel="canonical" href="https://vamsibushan.github.io/">
 <style>
   :root {
     --bg: #050705;
@@ -95,32 +102,100 @@
   footer { margin-top: 48px; color: var(--dim); font-size: 13px; }
   footer::before { content: "────────────────────────────────────────"; display:block; margin-bottom: 8px; }
   @media (max-width: 600px) { body { font-size: 13px; } #term { padding: 20px 16px 60px; } }
+
+  :root { --dim: #82b88f; --panel: #0c130e; --border: #294531; }
+  body.mocha { --dim: #a6adc8; --panel: #181825; --border: #45475a; }
+  body::before, body::after { display: none; }
+  #term { max-width: 1120px; margin: auto; padding: 40px 32px; animation: none; text-shadow: none; }
+  .masthead { display: flex; justify-content: space-between; align-items: center; gap: 16px; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 54px; }
+  .masthead a { text-decoration: none; }
+  .eyebrow { color: var(--prompt); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+  .hero { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: center; margin-bottom: 64px; }
+  h1 { font-family: system-ui, sans-serif; font-size: clamp(40px, 6vw, 68px); letter-spacing: -.055em; line-height: 1.08; margin: 18px 0 24px; color: var(--echo); }
+  .intro { max-width: 560px; color: var(--dim); font-family: system-ui, sans-serif; font-size: 18px; line-height: 1.7; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .actions a { border: 1px solid var(--border); border-radius: 6px; padding: 10px 16px; text-decoration: none; }
+  .actions .primary { background: var(--prompt); color: var(--bg); border-color: var(--prompt); }
+  .identity { background: var(--panel); padding: 26px; border: 1px solid var(--border); border-radius: 10px; }
+  pre.banner { font-size: clamp(6px, 1.1vw, 9px); margin-bottom: 24px; }
+  .identity p { margin: 8px 0; font-size: 13px; }
+  h2 { font-size: 20px; letter-spacing: -.03em; margin: 0 0 24px; }
+  .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 56px; }
+  .project { border: 1px solid var(--border); border-radius: 8px; background: var(--panel); padding: 24px; }
+  .project h3 { margin: 18px 0 12px; font-size: 17px; color: var(--echo); }
+  .project p { color: var(--dim); font-family: system-ui, sans-serif; font-size: 15px; line-height: 1.65; }
+  .project .label { color: var(--prompt); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+  .terminal { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .terminal-heading { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding: 14px 20px; color: var(--dim); font-size: 12px; }
+  .terminal-body { padding: 24px; }
+  nav button { border-color: var(--border); border-radius: 5px; min-height: 44px; text-shadow: none; }
+  #output { max-height: 400px; overflow: auto; overflow-wrap: anywhere; scroll-margin: 24px; }
+  #input-line { padding: 12px 0; border-top: 1px solid var(--border); margin-top: 16px; }
+  #cmd { min-width: 0; text-shadow: none; }
+  #cmd::placeholder { color: var(--dim); }
+  :focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
+  #cmd:focus-visible { outline-offset: 2px; }
+  footer { border-top: 1px solid var(--border); padding-top: 20px; }
+  footer::before { display: none; }
+  .skip-link { position: absolute; left: 16px; top: -100px; padding: 8px; background: var(--bg); z-index: 100; }
+  .skip-link:focus { top: 16px; }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 24px; } .projects-grid { grid-template-columns: 1fr; } .identity { display: none; } .masthead { margin-bottom: 32px; } #term { padding: 24px 18px; } .terminal-body { padding: 16px; } .terminal-heading { flex-wrap: wrap; } .hero { margin-bottom: 40px; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; } }
+
+  body.latte { --bg: #eff1f5; --fg: #4c4f69; --dim: #5c5f77; --accent: #8839ef; --prompt: #8839ef; --link: #1e66f5; --echo: #4c4f69; --panel: #e6e9ef; --border: #9ca0b0; --hover-fg: #eff1f5; color-scheme: light; }
+  body.tokyo { --bg: #1a1b26; --fg: #c0caf5; --dim: #a9b1d6; --accent: #e0af68; --prompt: #bb9af7; --link: #7aa2f7; --echo: #c0caf5; --panel: #16161e; --border: #414868; --hover-fg: #1a1b26; }
+  body.dracula { --bg: #282a36; --fg: #f8f8f2; --dim: #bfc3dc; --accent: #f1fa8c; --prompt: #bd93f9; --link: #8be9fd; --echo: #f8f8f2; --panel: #21222c; --border: #6272a4; --hover-fg: #282a36; }
+  body { color-scheme: dark; }
+  .masthead { flex-wrap: wrap; }
+  .theme-control { color: var(--dim); font-size: 12px; }
+  select { background: var(--panel); color: var(--fg); border: 1px solid var(--border); border-radius: 5px; padding: 10px; font: inherit; margin-left: 6px; }
+  .background { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 48px; }
+  .background p { font-family: system-ui, sans-serif; color: var(--dim); line-height: 1.75; }
+  .background h3 { font-size: 16px; color: var(--echo); }
+  @media (max-width: 760px) { .background { grid-template-columns: 1fr; gap: 16px; } }
 </style>
 </head>
 <body>
-<div id="term">
-<pre class="banner">██╗   ██╗ █████╗ ███╗   ███╗███████╗██╗
+<a class="skip-link" href="#main">Skip to content</a>
+<main id="term">
+<header class="masthead"><a href="/" aria-label="Vamsi Bushan home">vamsi<span class="dim">@portfolio</span><span class="amber">:~</span></a><span class="dim">Seattle, WA · Software engineer</span><label class="theme-control" for="theme-select">Theme <select id="theme-select"><option value="mocha">Catppuccin Mocha</option><option value="latte">Catppuccin Latte</option><option value="tokyo">Tokyo Night</option><option value="dracula">Dracula</option><option value="phosphor">Phosphor</option></select></label></header>
+<section class="hero" id="main" aria-labelledby="intro-title">
+<div><span class="eyebrow">Hello, world. I'm Vamsi.</span><h1 id="intro-title">Building systems.<br>Exploring intelligence.</h1><p class="intro">Software Development Engineer at Amazon Ads. I build data platforms and distributed systems, and explore agentic applications that make knowledge easier to find and use.</p><div class="actions"><a class="primary" href="#selected-projects">Explore my work ↓</a><a href="https://www.linkedin.com/in/vathepalli-vamsi-bushan">Connect on LinkedIn ↗</a></div></div>
+<aside class="identity" aria-label="Engineering background"><pre class="banner" aria-hidden="true">██╗   ██╗ █████╗ ███╗   ███╗███████╗██╗
 ██║   ██║██╔══██╗████╗ ████║██╔════╝██║
 ██║   ██║███████║██╔████╔██║███████╗██║
 ╚██╗ ██╔╝██╔══██║██║╚██╔╝██║╚════██║██║
  ╚████╔╝ ██║  ██║██║ ╚═╝ ██║███████║██║
-  ╚═══╝  ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝</pre>
-<p class="tagline">software engineer · seattle, wa · est. 2026</p>
+  ╚═══╝  ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝</pre><p><span class="dim">role</span> &nbsp; Software engineer</p><p><span class="dim">work</span> &nbsp; Amazon · AWS</p><p><span class="dim">focus</span> &nbsp; Data + systems + AI</p><p><span class="dim">status</span> <span class="amber">Always learning.</span></p></aside>
+</section>
+<section aria-labelledby="background-title"><h2 id="background-title"><span class="dim">01 /</span> What I work on</h2><div class="background"><div><h3>Data platforms &amp; distributed systems</h3><p>At Amazon Ads, I work on data lake systems. My interests include Apache Iceberg, Spark, and treating schemas as code to make data evolution more reliable. Previously, I worked on AWS Connect Customer Profiles and Fulfillment Operations.</p></div><div><h3>Agentic applications &amp; useful knowledge</h3><p>I explore RAG, MCP, and knowledge graphs: how agents retrieve the right context, connect information, and help engineers solve practical problems. Java is my home base; Python is a frequent companion.</p></div></div></section>
+<section id="selected-projects" aria-labelledby="projects-title"><h2 id="projects-title"><span class="dim">02 /</span> Selected projects</h2>
+<div class="projects-grid">
+<article class="project"><span class="label">NLP · December 2020</span><h3>NYTInshorts</h3><p>A news app using the NYT Article Search API and language models to generate summaries, keywords, and sentiment analysis.</p></article>
+<article class="project"><span class="label">Distributed compute · October 2020</span><h3>MapReduce on GCP</h3><p>A distributed MapReduce implementation on Compute Engine, with RPyC communication and Cloud Storage for intermediate results.</p></article>
+<article class="project"><span class="label">Deep learning · November 2020</span><h3>Speech denoising</h3><p>An LSTM that predicts an Ideal Binary Mask from noisy audio and uses that mask to filter unwanted sound.</p></article>
+</div></section>
+<section aria-labelledby="interests-title"><h2 id="interests-title"><span class="dim">03 /</span> Beyond the day job</h2><div class="background"><div><h3>Tools that make engineering enjoyable</h3><p>I like exploring the small tools that improve everyday work: Raycast quicklinks, snippets, and AI workflows; Warp and tmux for the terminal; Neovim and IntelliJ for coding; and AeroSpace, Sketchybar, and Karabiner for shaping my Mac workspace.</p><p>I'm also interested in connecting these workflows to local MCP servers and coding agents. A good tool makes the next useful action easier.</p></div><div><h3>Currently reading &amp; researching</h3><p class="eyebrow">Research notes · Updated October 2026</p><p><strong>Schema as code:</strong> Exploring Smithy models, custom validators, schema contracts, and safe evolution of Apache Iceberg tables, including persistent field IDs and downstream compatibility.</p><p><strong>Connected engineering knowledge:</strong> Researching Obsidian document graphs, knowledge base MCPs, and where a graph database could help connect documentation.</p><p><strong>Practical retrieval:</strong> Exploring local RAG for on-call tickets and semantic search over YouTube transcripts, with useful context and navigation as the goal.</p></div></div></section>
+<section aria-labelledby="terminal-title"><h2 id="terminal-title"><span class="dim">04 /</span> A little more, from the terminal</h2><div class="terminal"><div class="terminal-heading"><span>● ● ● &nbsp; vamsi@github: ~</span><span>Click a command or type below</span></div><div class="terminal-body">
 <nav id="nav">
   <button data-cmd="about">about</button>
   <button data-cmd="experience">experience</button>
   <button data-cmd="projects">projects</button>
   <button data-cmd="skills">skills</button>
+  <button data-cmd="interests">interests</button>
+  <button data-cmd="reading">reading</button>
   <button data-cmd="contact">contact</button>
   <button data-cmd="theme">theme</button>
 </nav>
-<div id="output"></div>
+<div id="output" role="log" aria-live="polite" aria-label="Command output"></div>
 <div id="input-line">
   <span class="prompt">vamsi@github:~$&nbsp;</span>
-  <input id="cmd" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="terminal input">
+  <input id="cmd" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command" aria-describedby="command-hint" placeholder="Try help, projects, or theme">
 </div>
-<footer>© 2026 vathepalli vamsi bushan · rendered in pure ascii · hosted on github pages</footer>
-</div>
+<p id="command-hint" class="dim">Tab to complete · ↑ ↓ history · Ctrl+L to clear</p>
+<noscript><p>Enable JavaScript to use the interactive terminal. Find more work on <a href="https://github.com/vamsibushan">GitHub</a>.</p></noscript>
+</div></div></section><footer>© 2026 Vathepalli Vamsi Bushan · <a href="https://github.com/vamsibushan">GitHub ↗</a> · Built with curiosity. Hosted on GitHub Pages.</footer>
+</main>
 <script>
 (function () {
   "use strict";
@@ -135,12 +210,12 @@
       { t: "Vathepalli Vamsi Bushan" },
       { t: "Software Development Engineer @ Amazon — Seattle, WA" },
       { t: "" },
-      { t: "I build distributed systems by day and teach machines to" },
-      { t: "understand language by night. Indiana University Bloomington" },
+      { t: "I build data platforms and distributed systems, and explore" },
+      { t: "agentic applications, RAG, and knowledge graphs. Indiana University Bloomington" },
       { t: "alum. My work has spanned Amazon Ads, AWS Connect Customer" },
       { t: "Profiles, and Fulfillment Operations." },
       { t: "" },
-      { t: "interests: ML/NLP · distributed systems · tennis analytics", c: "dim" }
+      { t: "interests: data platforms · agentic AI · knowledge graphs", c: "dim" }
     ],
     experience: [
       { t: "> cat experience.log", c: "cmd-echo" },
@@ -187,10 +262,24 @@
     ],
     skills: [
       { t: "> ./skills --list", c: "cmd-echo" },
-      { t: "domains .... distributed systems · NLP/ML · backend engineering" },
-      { t: "ml ......... LSTMs · text summarization · signal processing" },
-      { t: "systems .... distributed compute · caching · AWS / GCP" },
-      { t: "tools ...... git · linux · this terminal", c: "dim" }
+      { t: "domains .... data platforms · distributed systems · agentic applications" },
+      { t: "ai ......... RAG · MCP · knowledge graphs · NLP/ML" },
+      { t: "data ....... Apache Iceberg · Spark · S3 · AWS Glue" },
+      { t: "languages .. Java · Python · SQL · TypeScript", c: "dim" }
+    ],
+    interests: [
+      { t: "> cat interests.txt", c: "cmd-echo" },
+      { t: "Raycast — quicklinks, snippets, AI workflows, and local MCP servers" },
+      { t: "Workspace — Warp, tmux, Neovim, IntelliJ, AeroSpace, Sketchybar" },
+      { t: "Automation — Karabiner, coding agents, and small useful tools" },
+      { t: "Away from the screen — reading and nature walks", c: "dim" }
+    ],
+    reading: [
+      { t: "> cat research-notes.txt", c: "cmd-echo" },
+      { t: "Currently researching — updated October 2026", c: "amber" },
+      { t: "Schema as code: Smithy validators, Iceberg field IDs, schema contracts" },
+      { t: "Knowledge graphs: Obsidian document graphs and knowledge base MCPs" },
+      { t: "Retrieval: local RAG for on-call tickets and YouTube transcript search" }
     ],
     contact: [
       { t: "> cat contact.txt", c: "cmd-echo" },
@@ -205,8 +294,10 @@
       { t: "  experience   where he's worked" },
       { t: "  projects     things he's built" },
       { t: "  skills       the toolbox" },
+      { t: "  interests    engineering tools and workflows" },
+      { t: "  reading      current reading and research" },
       { t: "  contact      get in touch" },
-      { t: "  theme        toggle catppuccin mocha / phosphor green" },
+      { t: "  theme        cycle themes; theme mocha|latte|tokyo|dracula|phosphor" },
       { t: "  clear        wipe the terminal" }
     ]
   };
@@ -236,20 +327,24 @@
     return true;
   }
 
+  var themes = ["mocha", "latte", "tokyo", "dracula", "phosphor"];
+  var currentTheme = "mocha";
   function applyTheme(name) {
-    document.body.classList.toggle("mocha", name === "mocha");
+    if (themes.indexOf(name) === -1) name = "mocha";
+    themes.forEach(function (theme) { document.body.classList.toggle(theme, name === theme); });
+    currentTheme = name;
+    document.getElementById("theme-select").value = name;
+    document.querySelector('meta[name="theme-color"]').content = getComputedStyle(document.body).getPropertyValue("--bg").trim();
     try { localStorage.setItem("vamsi-portfolio-theme", name); } catch (e) {}
   }
-
+  document.getElementById("theme-select").addEventListener("change", function (e) { applyTheme(e.target.value); });
   function themeCmd(cmd, c) {
     echoCmd(cmd);
     var arg = c.slice(5).trim();
-    var cur = document.body.classList.contains("mocha") ? "mocha" : "phosphor";
-    var next = cur === "mocha" ? "phosphor" : "mocha";
-    if (arg === "mocha" || arg === "phosphor") next = arg;
-    applyTheme(next);
-    print("theme: " + next + (next === "mocha" ? "  (catppuccin)" : "  (phosphor green)"), "amber");
-    window.scrollTo(0, document.body.scrollHeight);
+    if (arg && themes.indexOf(arg) === -1) { print("Choose: " + themes.join(", "), "amber"); return; }
+    applyTheme(arg || themes[(themes.indexOf(currentTheme) + 1) % themes.length]);
+    print("theme: " + document.getElementById("theme-select").selectedOptions[0].textContent, "amber");
+    output.scrollTop = output.scrollHeight;
   }
 
   function run(cmd) {
@@ -264,19 +359,19 @@
       print("command not found: " + c, "amber");
       print("type 'help' for available commands.", "dim");
     }
-    window.scrollTo(0, document.body.scrollHeight);
+    output.scrollTop = output.scrollHeight;
   }
 
   var BOOT = [
     "[ OK ] mounted /dev/portfolio",
     "[ OK ] loaded ascii_renderer v2.6",
-    "[ OK ] theme: catppuccin_mocha",
+    "[ OK ] interactive portfolio ready",
     "",
     "Welcome. Type 'help' to begin."
   ];
 
   function boot(i) {
-    if (i >= BOOT.length) { input.focus(); return; }
+    if (i >= BOOT.length) { return; }
     print(BOOT[i], "dim");
     setTimeout(function () { boot(i + 1); }, 160);
   }
@@ -284,9 +379,12 @@
   input.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
       var v = input.value;
-      history.unshift(v); hIndex = -1;
+      if (v.trim()) history.unshift(v); hIndex = -1;
       input.value = "";
       run(v);
+    } else if (e.key === "Tab" && input.value.trim()) {
+      var matches = Object.keys(SECTIONS).concat(["theme", "clear", "whoami"]).filter(function (name) { return name.indexOf(input.value.trim().toLowerCase()) === 0; });
+      if (matches.length === 1) { input.value = matches[0]; e.preventDefault(); }
     } else if (e.key === "ArrowUp") {
       if (hIndex < history.length - 1) { hIndex++; input.value = history[hIndex] || ""; }
       e.preventDefault();
@@ -304,13 +402,10 @@
     if (b) run(b.getAttribute("data-cmd"));
   });
 
-  document.addEventListener("click", function (e) {
-    if (!e.target.closest("a") && !e.target.closest("button")) input.focus();
-  });
 
   try {
     var savedTheme = localStorage.getItem("vamsi-portfolio-theme");
-    applyTheme(savedTheme === "phosphor" ? "phosphor" : "mocha");
+    applyTheme(savedTheme || "mocha");
   } catch (e) { applyTheme("mocha"); }
 
   boot(0);
