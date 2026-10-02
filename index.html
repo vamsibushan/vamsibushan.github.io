@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Vamsi Bushan · Software Engineer</title>
 <meta name="description" content="Vamsi Bushan is a software engineer at Amazon in Seattle, building distributed systems and exploring machine learning and NLP.">
 <meta name="theme-color" content="#1e1e2e">
@@ -153,6 +153,43 @@
   .background p { font-family: system-ui, sans-serif; color: var(--dim); line-height: 1.75; }
   .background h3 { font-size: 16px; color: var(--echo); }
   @media (max-width: 760px) { .background { grid-template-columns: 1fr; gap: 16px; } }
+
+  /* Responsive and touch layouts: phones, portrait tablets, landscape tablets. */
+  #term { padding-left: max(32px, env(safe-area-inset-left)); padding-right: max(32px, env(safe-area-inset-right)); padding-bottom: max(40px, env(safe-area-inset-bottom)); }
+  .hero { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+  .projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .background { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero > *, .project, .background > *, .terminal { min-width: 0; }
+  p, h1, h2, h3, footer, .masthead { overflow-wrap: anywhere; }
+  .identity pre { max-width: 100%; overflow: hidden; }
+  .actions a, nav button, select { min-height: 44px; }
+  .actions a { display: inline-flex; align-items: center; }
+  #cmd { font-size: 16px; min-height: 44px; }
+  #output { max-height: min(400px, 55dvh); -webkit-overflow-scrolling: touch; }
+  .submit-command { font: inherit; min-height: 44px; padding: 8px 12px; background: var(--prompt); color: var(--bg); border: 0; border-radius: 5px; cursor: pointer; margin-left: 8px; }
+  @media (min-width: 761px) and (max-width: 1100px) {
+    #term { padding-top: 28px; }
+    .hero { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 24px; }
+    h1 { font-size: clamp(40px, 5.5vw, 58px); }
+    .identity { padding: 18px; }
+    .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .project:last-child { grid-column: 1 / -1; }
+    .background { gap: 24px; }
+  }
+  @media (max-width: 760px) {
+    #term { padding-left: max(18px, env(safe-area-inset-left)); padding-right: max(18px, env(safe-area-inset-right)); }
+    .hero, .projects-grid, .background { grid-template-columns: minmax(0, 1fr); }
+    .masthead { align-items: flex-start; gap: 12px; }
+    .masthead > .dim { width: 100%; }
+    .theme-control { display: flex; align-items: center; gap: 8px; max-width: 100%; }
+    select { max-width: 100%; font-size: 16px; margin-left: 0; }
+    #input-line { flex-wrap: wrap; gap: 6px; }
+    #input-line > .prompt { width: 100%; }
+    #cmd { flex: 1 1 0; width: 0; }
+    .submit-command { margin-left: 0; }
+    #command-hint { font-size: 12px; }
+  }
+  @media (pointer: coarse) { nav { gap: 10px; } nav button { padding: 10px 14px; } }
 </style>
 </head>
 <body>
@@ -188,10 +225,11 @@
   <button data-cmd="theme">theme</button>
 </nav>
 <div id="output" role="log" aria-live="polite" aria-label="Command output"></div>
-<div id="input-line">
+<form id="input-line" aria-label="Run a terminal command">
   <span class="prompt">vamsi@github:~$&nbsp;</span>
-  <input id="cmd" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command" aria-describedby="command-hint" placeholder="Try help, projects, or theme">
-</div>
+  <input id="cmd" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="send" aria-label="Terminal command" aria-describedby="command-hint" placeholder="Try help, projects, or theme">
+<button class="submit-command" type="submit" aria-label="Run command">Run ↵</button>
+</form>
 <p id="command-hint" class="dim">Tab to complete · ↑ ↓ history · Ctrl+L to clear</p>
 <noscript><p>Enable JavaScript to use the interactive terminal. Find more work on <a href="https://github.com/vamsibushan">GitHub</a>.</p></noscript>
 </div></div></section><footer>© 2026 Vathepalli Vamsi Bushan · <a href="https://github.com/vamsibushan">GitHub ↗</a> · Built with curiosity. Hosted on GitHub Pages.</footer>
@@ -376,12 +414,21 @@
     setTimeout(function () { boot(i + 1); }, 160);
   }
 
+  function submitCommand() {
+    var v = input.value;
+    if (v.trim()) history.unshift(v);
+    hIndex = -1;
+    input.value = "";
+    run(v);
+  }
+  document.getElementById("input-line").addEventListener("submit", function (e) {
+    e.preventDefault();
+    submitCommand();
+  });
   input.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
-      var v = input.value;
-      if (v.trim()) history.unshift(v); hIndex = -1;
-      input.value = "";
-      run(v);
+      e.preventDefault();
+      submitCommand();
     } else if (e.key === "Tab" && input.value.trim()) {
       var matches = Object.keys(SECTIONS).concat(["theme", "clear", "whoami"]).filter(function (name) { return name.indexOf(input.value.trim().toLowerCase()) === 0; });
       if (matches.length === 1) { input.value = matches[0]; e.preventDefault(); }
